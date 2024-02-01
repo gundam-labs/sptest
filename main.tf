@@ -1,23 +1,19 @@
 resource "random_pet" "rg_name" {
   prefix = var.resource_group_name_prefix
 }
-
 resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
   name     = random_pet.rg_name.id
 }
-
  resource "random_string" "resource_code" {
   length  = 5
   special = false
   upper   = false
 }
-
 resource "azurerm_resource_group" "tfstate" {
   name     = "tfstate"
   location = "East US"
 }
-
 resource "azurerm_storage_account" "tfstate" {
   name                     = "tfstate${random_string.resource_code.result}"
   resource_group_name      = azurerm_resource_group.tfstate.name
@@ -30,7 +26,6 @@ resource "azurerm_storage_account" "tfstate" {
     environment = "staging"
   }
 }
-
 resource "azurerm_storage_container" "tfstate" {
   name                  = "tfstate"
   storage_account_name  = azurerm_storage_account.tfstate.name
